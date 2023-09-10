@@ -82,7 +82,7 @@ void GetTrump(){
         return ;
     }
 }
-
+ 
 void display(){
     struct Node* curr = head;
 
