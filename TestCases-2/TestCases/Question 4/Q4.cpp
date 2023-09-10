@@ -33,7 +33,7 @@ void AddNumber(int val){
         curr->next = node;  
         node->next = NULL;
         node->prev = curr;
-        cursor = node;
+        // cursor = node;
         n++;
         return;
 }
@@ -48,7 +48,7 @@ void AddAtindex(int val,int index){
             node->next = head;
             node->prev = NULL;
             head = node;
-            cursor = node;
+            // cursor = node;
             n++;
             return;
         }
@@ -59,7 +59,7 @@ void AddAtindex(int val,int index){
         node->next = curr;
         curr->prev->next = node;
         curr->prev = node;
-        cursor = node;
+        // cursor = node;
         n++;
         return;
     } 
@@ -149,6 +149,7 @@ void MoveForward_steps(int steps){
         cursor = cursor->next;
         i++;
     }
+    cout<<"Cursor moved forward by "<< steps<<" step(s)"<<endl;
     return;
 }
 
@@ -158,6 +159,8 @@ void MoveBackward_steps(int steps){
         cursor = cursor->prev;
         i++;
     }
+    cout<<"Cursor moved backword by "<< steps<<" step(s)"<<endl;
+
     return;
 }
 
@@ -168,7 +171,7 @@ void AddImmediate_number(int val){
     node->prev = cursor;
     cursor->next->prev = node;
     cursor->next = node;
-    cursor = node;
+    // cursor = node;
     n++;
     return;
 
@@ -176,6 +179,13 @@ void AddImmediate_number(int val){
 
 void DeleteImmediate(){
     struct Node* todelete = cursor;
+    if (cursor == head){
+        todelete = cursor;
+        cursor = cursor->next;
+        cursor->prev = NULL;
+        free(todelete);
+        return;
+    }
     cursor->prev->next = cursor->next;
     cursor->next->prev = cursor->prev;
     cursor = cursor->prev;
@@ -192,7 +202,7 @@ void Update_index_number(int index,int val){
             curr = curr->next;
         } 
         curr->val = val;
-        cursor = curr;
+        // cursor = curr;
         return;
         
     }
@@ -232,6 +242,7 @@ void print(){
 
 void PrintAtCursor(){
     cout<<"Data At Cursor: "<<cursor->val<<endl;
+    return;
 }
 
 struct Stack{
@@ -271,7 +282,11 @@ void pop(){
 }
 int main(){
     
-    string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test01.txt";
+    // string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test01.txt";
+    string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test02.txt";
+    // string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test03.txt";
+    // string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test04.txt";
+    // string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test05.txt";
     ifstream in(file);
     string line;
     string first_read;
@@ -285,19 +300,58 @@ int main(){
             if (first_read != "Print" && first_read !="Delete" && first_read !="Undo"){
                 if (first_read == "Add" || first_read == "Update"){
                     iss>>val1>>val2;
-                    AddAtindex(val1,val2);
-                    // cout<<first_read<<" "<< val1<<" "<<val2<<endl;
-                } 
+                    if (first_read =="Add" && val2 > 1000){
+                        AddNumber(val1);
+                    }
+                    else if(first_read == "Add"){
+                        AddAtindex(val2,val1);
+                    }
+                    else if (first_read == "Update"){
+                        Update_index_number(val1,val2);
+                    }
+                }  
                 else{
                     iss>>val1;
-                    AddNumber(val1);
+                    if (first_read == "MoveForward"){
+                        MoveForward_steps(val1);
+                        continue;
+                    }
+                    else if (first_read == "AddImmediate"){
+                        AddImmediate_number(val1);
+                    }
+                    else if(first_read == "MoveBackward"){
+                        MoveBackward_steps(val1);
+                        continue;
+                    }
+                    else if(first_read == "Delete"){
+                        DeleteAtIndex(val1);
+                    }
+                    else if(first_read == "Shift"){
+                        Shift_index(val1);
+                    }
+                    else if(first_read == "UpdateImmediate"){
+                        UpdateImmediate_number(val1);
+                    }
+                    
                 }
+
             }
             else{
-                cout<<first_read<<endl;
+                if (first_read == "Print"){
+                    PrintAtCursor();
+                    continue;
+                }
+                else if (first_read == "Delete"){
+                    Delete();
+                }
+                else if (first_read == "UpdateImmediate"){
+                    DeleteImmediate();
+                }
             }
+            print();
         }
     }
+
     in.close();
 
     return 0;
