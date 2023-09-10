@@ -234,6 +234,41 @@ void PrintAtCursor(){
     cout<<"Data At Cursor: "<<cursor->val<<endl;
 }
 
+struct Stack{
+    struct Node* deletedVal;
+    struct Stack* next;
+    struct Stack* prev;
+};
+struct Stack* top = NULL;
+void push(struct Node* deletedNode){
+    struct Stack* add ;
+
+    add->deletedVal = deletedNode;
+    if (top == NULL){
+        add->next = NULL;
+        add->prev = NULL;
+        top = add;
+        return;
+    }
+
+    struct Stack* curr= top;
+    curr->next = add;
+    add->prev = curr;
+    add->next = NULL;
+    top = add;
+    return;
+}
+
+void pop(){
+    if (top == NULL){
+        return;
+    }
+    struct Stack* curr= top;
+    
+    top = curr->prev;
+    free(curr);
+    return;
+}
 int main(){
     
     string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test01.txt";
