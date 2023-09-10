@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<sstream>
 using namespace std;
 
 struct Node{
@@ -237,82 +238,32 @@ int main(){
     
     string file = "E:/BSCS-402-Data_Structure_And_Algorithim/Assignments DSA/Assignment 2/TestCases-2/TestCases/Question 4/04/Test01.txt";
     ifstream in(file);
-
+    string line;
     string first_read;
-    int val1;
-    int val2 = 0;
+    int val1 ;
+    int val2 ;
 
-
-    // while(in>>first_read){
-    //     in>>val1;
-    //     cout<<first_read<<" val1: "<<val1<<" val2: "<<val2<<endl;
-
-    // }
-    in>>first_read;
-    while(in.eof()){
-        in>>val2;
-        if (first_read == "Add" ){
-            in>>val1;
-        // 
-            // }
-            // AddNumber(val1);
-            cout<<first_read<<" val1: "<<val1<<" val2: "<<val2<<endl;
-        }
-        else if( first_read =="Print"){
-            cout<<first_read<<" val1: "<<val1<<" val2: "<<val2<<endl;
-            // print();
+    if (in.is_open()){
+        while(getline(in,line)){
+            istringstream iss(line);
+            iss>>first_read;
+            if (first_read != "Print" && first_read !="Delete" && first_read !="Undo"){
+                if (first_read == "Add" || first_read == "Update"){
+                    iss>>val1>>val2;
+                    AddAtindex(val1,val2);
+                    // cout<<first_read<<" "<< val1<<" "<<val2<<endl;
+                } 
+                else{
+                    iss>>val1;
+                    AddNumber(val1);
+                }
+            }
+            else{
+                cout<<first_read<<endl;
+            }
         }
     }
-
-    // AddNumber(2);
-    // AddNumber(4);
-    // AddNumber(6);
-    // AddNumber(8);
-    // AddNumber(10);
-    // // cout<<n<<endl;
-    // // print();
-    // AddAtindex(5,5);
-    // AddAtindex(1,0);
-    // AddAtindex(3,2);
-    // print();
-    // Delete();
-    // // cout<<n<<endl;
-    // DeleteAtIndex(6);
-    // DeleteAtIndex(0);
-    // // DeleteAtIndex(1);
-    // print();
-    
-    // PrintAtCursor();
-    
-    // MoveForward_steps(2);
-    // PrintAtCursor();
-    
-    // MoveBackward_steps(1);
-    // PrintAtCursor();
-
-    // AddImmediate_number(10);
-    // print();
-    // PrintAtCursor();
-
-    // DeleteImmediate();
-    // print();
-    // PrintAtCursor();
-    
-    // Update_index_number(3,3);
-    // print();
-    // PrintAtCursor();
-
-    // UpdateImmediate_number(10);
-    // print();
-    // PrintAtCursor();
-
-    // Shift_index(1);
-    // print();
-    // PrintAtCursor();
-
-
-    // cout<<"n = "<<n<<endl;
-
+    in.close();
 
     return 0;
 }
