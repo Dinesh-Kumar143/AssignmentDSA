@@ -64,7 +64,8 @@ void GetTrump(){
     else if (n == 1){
         cout<<slow->data;
         return;
-    }
+    } 
+    
     if ((n % 2) == 1){
         while(fast->next != NULL && fast != NULL ){
             fast = fast->next->next;
